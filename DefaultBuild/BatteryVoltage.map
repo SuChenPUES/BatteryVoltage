@@ -1,0 +1,45 @@
+Renesas Optimizing Linker (W2.08.00 )             25-Apr-2018 17:20:25
+
+*** Options ***
+
+-subcommand=DefaultBuild\BatteryVoltage.clnk
+-input=DefaultBuild\boot.obj
+-input=DefaultBuild\cstart.obj
+-input=DefaultBuild\main.obj
+-debug
+-nocompress
+-output=DefaultBuild\BatteryVoltage.abs
+-library=v850e3v5\rhs8n.lib
+-library=v850e3v5\libmalloc.lib
+-list=DefaultBuild\BatteryVoltage.map
+-start=RESET,EIINTTBL/0,.const,.INIT_DSEC.const,.INIT_BSEC.const,.text,.data/00008000,.data.R,.bss,.stack.bss/FEDFC000
+-rom=.data=.data.R
+-memory=high
+-nologo
+-end
+
+*** Error information ***
+
+*** Mapping List ***
+
+SECTION                            START      END         SIZE   ALIGN
+RESET
+                                  00000000  000001f7       1f8   200
+EIINTTBL
+                                  00000200  000009ff       800   200
+.const
+                                  00008000  00008013        14   4
+.INIT_DSEC.const
+                                  00008014  0000801f         c   4
+.INIT_BSEC.const
+                                  00008020  00008027         8   4
+.text
+                                  00008028  000085fd       5d6   2
+.data
+                                  00008600  00008600         0   4
+.data.R
+                                  fedfc000  fedfc000         0   4
+.bss
+                                  fedfc000  fedfc000         0   4
+.stack.bss
+                                  fedfc000  fedfc1ff       200   4
