@@ -32,7 +32,18 @@ float cal_voltage(int n,float VB,float VBFLT_n_1)
 	/*バッテリ電圧フィルター処理値計算*/
 	VBFLT_n = VB * CFVBFLT + VBFLT_n_1 * (1 - CFVBFLT);
 	
-	/*期待値を目標範囲に修正*/
+	/*入力を目標範囲に修正*/
+	if (VB < 0)
+	{
+		VB = 0;
+	}
+	else if (VB > 24.4)
+	{
+		VB = 24.4;
+	}
+	
+	
+	/*出力を目標範囲に修正*/
 	if (VBFLT_n < 0)
 	{
 		VBFLT_n = 0;
