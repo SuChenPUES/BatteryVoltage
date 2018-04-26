@@ -25,7 +25,8 @@ float cal_voltage(int n,float VB,float VBFLT_n_1)
 	/*システム起動直後の値(=初回バッテリ電圧)*/
 	if (n == 0)
 	{
-		VBFLT_n_1 = VB;
+		VB = 0;
+		VBFLT_n_1 = 0;
 	}
 	
 	/*バッテリ電圧フィルター処理値計算*/
@@ -52,7 +53,7 @@ void main(void)
 	int i;
 	int j;
 	
-	float VBFLT_n_1;
+	float VBFLT_n_1;/*(n-1)回目バッテリ電圧フィルター処理値*/
 	float VB[5] = {24.4,24.5,12.2,50,-10};/*各ケースのバッテリ電圧*/
 	float VBFLT[5][10];/*バッテリ電圧フィルター処理値配列[ケース][ステップ]*/
 	
@@ -61,7 +62,7 @@ void main(void)
 		for (i = 0; i < n;i ++)
 		{
 			VBFLT[j][i] = cal_voltage(i,VB[j],VBFLT_n_1);/*i回目バッテリ電圧フィルター処理値算出*/
-			VBFLT_n_1 = VBFLT[j][i];/*i回目バッテリ電圧フィルター処理値保存して次回に(i-1)回目の値として使用*/
+			VBFLT_n_1 = VBFLT[j][i];/*i回目バッテリ電圧フィルター処理値を保存して次回に(i-1)回目の値として使用*/
 		}
 	}
 	
