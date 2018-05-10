@@ -9,8 +9,9 @@
 /*                                                                     */
 /***********************************************************************/
 
-#include <stdlib.h>
+#include <stdio.h>
 #include "iodefine.h"
+#include "minunit.h"
 
 float cal_voltage(int n,float VB,float VBFLT_n_1);
 void main(void);
@@ -67,6 +68,8 @@ void main(void)
 	float VB[5] = {24.4,24.5,12.2,50,-10};/*各ケースのバッテリ電圧*/
 	float VBFLT[5][10];/*バッテリ電圧フィルター処理値配列[ケース][ステップ]*/
 	
+	float test_case1[10] = {0, 12.2, 18.3, 21.35, 22.875, 23.6375, 24.01875, 24.209375, 24.3046875, 24.35234375}; /*テストケース1*/
+	
 	for (j = 0;j < num_case;j ++)
 	{	
 		for (i = 0; i < n;i ++)
@@ -76,6 +79,14 @@ void main(void)
 		}
 	}
 	
+	/*minUnit testing*/
+	static char *cal_voltage_case1()
+	{
+		for (i = 0;i < n;i ++)
+		{
+		    mu_assert("error voltage value !", cal_voltage(i, VB[i], VBFLT_n_1) == test_case1[i]);
 	
+		}
+	}
 
 }
