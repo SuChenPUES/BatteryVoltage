@@ -13,26 +13,15 @@
 #include "iodefine.h"
 #include "minunit.h"
 
-float cal_voltage(int n, float VB, float VBFLT_n);
-int main(void);
+float cal_voltage(float VB);
+int main(int argc, char **argv);
 
 /*バッテリ電圧フィルター処理値計算関数*/
-float cal_voltage(int n, float VB, float VBFLT_n)
+float cal_voltage(float VB)
 {
 	float CFVBFLT = 0.5; //バッテリ電圧フィルタリング係数
-	float VBFLT_n_1; //(n-1)回目バッテリ電圧フィルター処理値
-	
-	
-	/*システム起動直後の値(=初回バッテリ電圧)*/
-	if (n == 0)
-	{
-		VB = 0;
-		VBFLT_n_1 = 0;
-	}
-	else
-	{
-		VBFLT_n_1 = VBFLT_n;
-	}
+	static float VBFLT_n_1 = 0; //(n-1)回目バッテリ電圧フィルター処理値
+	float VBFLT_n; //(n)回目バッテリ電圧フィルター処理値
 	
 	/*入力を目標範囲に修正*/
 	if (VB < 0)
@@ -46,6 +35,9 @@ float cal_voltage(int n, float VB, float VBFLT_n)
 	
 	/*バッテリ電圧フィルター処理値計算*/
 	VBFLT_n = VB * CFVBFLT + VBFLT_n_1 * (1 - CFVBFLT);
+	
+	/*(n-1)回目バッテリ電圧フィルター処理値保存*/
+	VBFLT_n_1 = VBFLT_n;
 	
 	/*出力を目標範囲に修正*/
 	if (VBFLT_n < 0)
@@ -61,32 +53,31 @@ float cal_voltage(int n, float VB, float VBFLT_n)
 	
 }
 
-
-int main(void)
+int main(int argc, char **argv)
 {
-	int num_case = 5; //ケース数
 	int num_step = 10; //ステップ数
-	int i; //ステップ数カウンター
-	int j; //ケース数カウンター
+	int i;
 	
-	float VB[5] = {24.4, 24.5, 12.2, 50, -10}; //各ケースのバッテリ電圧
+	//各ケースのバッテリ電圧入力
+	float VB1[10] = {0, 24.4, 24.4, 24.4, 24.4, 24.4, 24.4, 24.4, 24.4, 24.4};
+	float VB2[10] = {0, 24.5, 24.5, 24.5, 24.5, 24.5, 24.5, 24.5, 24.5, 24.5};
+	float VB3[10] = {0, 12.2, 12.2, 12.2, 12.2, 12.2, 12.2, 12.2, 12.2, 12.2};
+	float VB4[10] = {0, 50, 50, 50, 50, 50, 50, 50, 50, 50};
+	float VB5[10] = {0, -10, -10, -10, -10, -10, -10, -10, -10, -10};
+	
 	float VBFLT[5][10]; //バッテリ電圧フィルター処理値配列[ケース][ステップ]
 	
-	for (j = 0; j < num_case; j ++)
-	{	
-		/*0回目バッテリ電圧フィルター処理値算出*/
-		i == 0;
-		VBFLT[j][i] = cal_voltage(i, VB[j], VBFLT[j][i]);
-		
-		/*ステップj回目バッテリ電圧フィルター処理値順次に算出*/
-		for (i = 1; i < num_step; i ++)
-		{
-			VBFLT[j][i] = cal_voltage(i, VB[j], VBFLT[j][i-1]);
-		}
+	for (i = 0; i < num_step; i ++)
+	{
+		cal_voltage(VB1[i]);
+		cal_voltage(VB2[i]);
+		cal_voltage(VB3[i]);
+		cal_voltage(VB4[i]);
+		cal_voltage(VB5[i]);
 	}
 	
 	/*define minUnit testing*/
-	float test_case1[10] = {0, 12.2, 18.3, 21.35, 22.875, 23.6375, 24.01875, 24.209375, 24.3046875, 24.35234375}; //テストケース1
+	/*float test_case1[10] = {0, 12.2, 18.3, 21.35, 22.875, 23.6375, 24.01875, 24.209375, 24.3046875, 24.35234375}; //テストケース1
 	float test_case2[10] = {0, 12.2, 18.3, 21.35, 22.875, 23.6375, 24.01875, 24.209375, 24.3046875, 24.35234375}; //テストケース2
 	float test_case3[10] = {0, 6.1, 9.15, 10.675, 11.4375, 11.81875, 12.009375, 12.1046875, 12.15234375, 12.17617188}; //テストケース3
 	float test_case4[10] = {0, 24.4, 24.4, 24.4, 24.4, 24.4, 24.4, 24.4, 24.4, 24.4}; //テストケース4
@@ -167,7 +158,7 @@ int main(void)
 	}
 
 	/*run minUnit testing*/
-	char s[255]={0};
+	/*char s[255]={0};
 
         int a=1;
         char *result = all_tests();
@@ -181,7 +172,6 @@ int main(void)
 	}
 	
         /* printf("test num: %d\n",tests_run); */
-        return result != 0;
-
-	
+        /*return result != 0;
+	*/
 }
