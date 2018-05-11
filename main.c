@@ -66,8 +66,9 @@ static char *cal_voltage_case1()
 	for (i = 0; i < num_step; i ++)
 	{
 		mu_assert("error voltage value !", cal_voltage(VB1[i]) == test_case1[i]);
-	        return 0;
 	}
+	
+	return 0;
 }
 
 static char *cal_voltage_case2()
@@ -78,8 +79,9 @@ static char *cal_voltage_case2()
 	for (i = 0; i < num_step; i ++)
 	{
 		mu_assert("error voltage value !", cal_voltage(VB2[i]) == test_case2[i]);
-	        return 0;
 	}
+	
+	return 0;
 }
 
 static char *cal_voltage_case3()
@@ -90,8 +92,9 @@ static char *cal_voltage_case3()
 	for (i = 0; i < num_step; i ++)
 	{
 		mu_assert("error voltage value !", cal_voltage(VB3[i]) == test_case3[i]);
-	        return 0;
 	}
+	
+	return 0;
 }
 
 static char *cal_voltage_case4()
@@ -102,8 +105,9 @@ static char *cal_voltage_case4()
 	for (i = 0; i < num_step; i ++)
 	{
 		mu_assert("error voltage value !", cal_voltage(VB4[i]) == test_case4[i]);
-	        return 0;
 	}
+	
+	return 0;
 }
 
 static char *cal_voltage_case5()
@@ -114,8 +118,9 @@ static char *cal_voltage_case5()
 	for (i = 0; i < num_step; i ++)
 	{
 		mu_assert("error voltage value !", cal_voltage(VB5[i]) == test_case5[i]);
-	        return 0;
 	}
+	
+	return 0;
 }
 	
 static char * all_tests() //ƒeƒXƒg‚ðŽÀŽ{‚·‚éŠÖ”
