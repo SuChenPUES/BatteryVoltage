@@ -12,8 +12,10 @@
 #include <stdio.h>
 #include "iodefine.h"
 #include "minunit.h"
+#include <math.h>
 
 float cal_voltage(float VB);
+void initial(void);
 int main(int argc, char **argv);
 
 /*バッテリ電圧フィルター処理値計算関数*/
@@ -31,12 +33,6 @@ float cal_voltage(float VB)
 	else if ((VB -24.4) > 1e-7)
 	{
 		VB = 24.4;
-	}
-	
-	/*新テスト関数に入る時VBFLT_n_1初期化*/
-	if (VB == 0)
-	{
-		VBFLT_n_1 = 0;
 	}
 
 	/*バッテリ電圧フィルター処理値計算*/
@@ -57,6 +53,21 @@ float cal_voltage(float VB)
 	
 	return VBFLT_n;
 	
+}
+
+/*VBFLT_n_1 initialize*/
+void initial(void)
+{
+	int i;
+	
+	int k;
+	k = (log ((1e-7)/24.4)) / (log (0.5));
+	
+	
+	for (i = 0; i < k; i ++)
+	{
+		cal_voltage(0);
+	}
 }
 
 /*define minUnit testing*/
@@ -141,9 +152,13 @@ static char *cal_voltage_case5()
 static char * all_tests() //テストを実施する関数
 {    
 	mu_run_test(cal_voltage_case1);
+	initial();
         mu_run_test(cal_voltage_case2);
+	initial();
 	mu_run_test(cal_voltage_case3);
+	initial();
 	mu_run_test(cal_voltage_case4);
+	initial();
 	mu_run_test(cal_voltage_case5);
         return 0;
 }
@@ -154,7 +169,6 @@ int main(int argc, char **argv)
 	/*run minUnit testing*/
 	char s[255]={0};
 
-        int a=1;
         char *result = all_tests();
         if (result != 0) 
 	{
