@@ -58,13 +58,7 @@ float cal_voltage(float VB)
 /*VBFLT_n_1 initialize*/
 void initial(void)
 {
-	int i;
-	
-	int k;
-	k = (log ((1e-7)/24.4)) / (log (0.5));
-	
-	
-	for (i = 0; i < k; i ++)
+	while (cal_voltage(0) > 1e-7)
 	{
 		cal_voltage(0);
 	}
